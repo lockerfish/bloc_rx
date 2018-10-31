@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'providers/movie_provider.dart';
 import 'package:bloc_rx/models/movie.dart';
 import 'package:bloc_rx/blocs/movie_bloc.dart';
+import 'dart:io';
 
 void main() => runApp(MyApp());
 
@@ -50,7 +51,6 @@ class MyHomePage extends StatelessWidget {
             child: StreamBuilder(
               stream: movieBloc.results,
               builder: (context, snapshot) {
-                print(snapshot.data);
                 if (!snapshot.hasData) {
                   return Center(
                     child: CircularProgressIndicator(),
@@ -60,9 +60,7 @@ class MyHomePage extends StatelessWidget {
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) => ListTile(
                         leading: CircleAvatar(
-                          child: Image.network(
-                              "https://image.tmdb.org/t/p/w92/" +
-                                  snapshot.data[index].posterPath),
+                          child: _tileImage(snapshot.data[index].posterPath),
                         ),
                         title: Text(snapshot.data[index].title),
                         subtitle: Text(snapshot.data[index].overview),
@@ -74,5 +72,15 @@ class MyHomePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _tileImage(String posterPath) {
+    /// show poster image from network
+    if (posterPath.startsWith("http")) {
+      return Image.network(posterPath);
+    }
+
+    /// show default poster image
+    return Image.asset(posterPath);
   }
 }

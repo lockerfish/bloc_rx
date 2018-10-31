@@ -17,7 +17,6 @@ class TheMovieDB {
       _url =
           "https://api.themoviedb.org/3/search/movie?api_key=$_apiKey&query={1}";
     });
-    print(Uri.parse(_url.replaceFirst("{1}", query)).toString());
     List<Movie> list = [];
     await _client
         .get(Uri.parse(_url.replaceFirst("{1}", query)))
@@ -26,7 +25,6 @@ class TheMovieDB {
         .then((json) => json["results"])
         .then((movies) =>
             movies.forEach((movie) => list.add(Movie.fromJson(movie))));
-    print(list.length);
     return list;
   }
 }
