@@ -1,5 +1,3 @@
-import 'package:bloc_rx/models/movie.dart';
-
 import 'package:bloc_rx/blocs/movie_bloc.dart';
 
 import 'package:flutter/widgets.dart';
